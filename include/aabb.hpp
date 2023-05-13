@@ -2,7 +2,7 @@
 
 #include "utils.hpp"
 
-class AABB
+class AABB // Axis-Aligned Bounding Box, used for BVH
 {
     Point3 minimum;
     Point3 maximum;
@@ -33,23 +33,6 @@ public:
                 return false;
         }
         return true;
-
-        // Vec3f hit1 = minimum - ray.origin();
-        // Vec3f hit2 = maximum - ray.origin();
-        // float tenter = std::numeric_limits<float>::min(), texit = std::numeric_limits<float>::max();
-        // for (size_t i = 0; i < 3; i++)
-        // {
-        //     if (ray.direction()[i] != 0)
-        //     {
-        //         float t1 = hit1[i] / ray.direction()[i];
-        //         float t2 = hit2[i] / ray.direction()[i];
-        //         if (t1 > t2)
-        //             std::swap(t1, t2); // make sure t1 < t2, direction is important
-        //         tenter = std::max(tenter, t1);
-        //         texit = std::min(texit, t2);
-        //     }
-        // }
-        // return tenter < texit && texit > 0;
     }
 };
 

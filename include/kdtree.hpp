@@ -60,7 +60,6 @@ public:
     }
     void mt(int f, int x) // modify the min and max of f using x
     {
-        // if (f == -1) return;
         tree[f].m[0] = min(tree[f].m[0], tree[x].m[0]);
         tree[f].m[1] = max(tree[f].m[1], tree[x].m[1]);
     }

@@ -59,7 +59,7 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE "${SRC_DIR}")
 target_include_directories(${PROJECT_NAME} PRIVATE "${LIB_DIR}")
 
-# STB
-set(STB_DIR "${LIB_DIR}/stb")
-target_include_directories(${PROJECT_NAME} PRIVATE "${STB_DIR}")
+# LIB_DIR
+set(LIB_DIR "${LIB_DIR}/lib")
+target_include_directories(${PROJECT_NAME} PRIVATE "${LIB_DIR}")
 

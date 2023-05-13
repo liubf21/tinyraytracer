@@ -5,7 +5,7 @@
 
 class Material; // forward declaration
 
-struct Intersection
+struct Intersection // the result of ray-primitive intersection
 {
     Point3 position;
     Vec3f normal; // should be normalized, always pointing outwards
@@ -25,8 +25,6 @@ public:
     virtual ~Primitive() {}
 
     virtual bool ray_intersect(const Ray &ray, float t_min, float t_max, Intersection &intersection) const = 0; // t_min and t_max are used to limit the range of t
-    // shared_ptr<Material> getMaterial() const { return material; }
-    // virtual Vec3f getNormal(const Vec3f& hitpoint) const = 0; // the direction should be checked
 
     virtual bool bounding_box(float time0, float time1, AABB &output_box) const = 0;
     virtual float pdf_value(const Point3 &o, const Vec3f &v) const { return 0.0; } // v is the direction of the ray, must be normalized
