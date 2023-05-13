@@ -32,7 +32,7 @@ inline float degrees_to_radians(float degrees) // inline: to avoid multiple defi
 
 inline float random_float()
 {
-    // Returns a random real in [0,1).
+    // Returns a random real in (0,1).
     static std::uniform_real_distribution<float> distribution(0.0, 1.0);
     // static std::mt19937 generator;
     static std::random_device rd; // Will be used to obtain a seed for the random number engine
@@ -46,11 +46,6 @@ inline float random_float(float min, float max)
     return min + (max - min) * random_float();
 }
 
-inline int random_int(int min, int max)
-{
-    // Returns a random integer in [min,max].
-    return static_cast<int>(random_float(min, max + 1));
-}
 
 inline float clamp(float x, float min, float max)
 {
@@ -59,6 +54,12 @@ inline float clamp(float x, float min, float max)
     if (x > max)
         return max;
     return x;
+}
+
+inline int random_int(int min, int max)
+{
+    // Returns a random integer in [min,max].
+    return static_cast<int>(clamp(random_float(min, max + 1), min, max));
 }
 
 inline Vec3f random_in_unit_sphere()

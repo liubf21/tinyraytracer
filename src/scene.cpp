@@ -95,6 +95,7 @@ void Scene::random_scene()
                     sphere_material = std::make_shared<Dielectric>(1.5);
                     // spheres.push_back(std::make_shared<Sphere>(center, 0.2, sphere_material));
                     spheres.push_back(std::make_shared<Sphere>(center, 0.2, light));
+                    Add_light(std::make_shared<Sphere>(center, 0.2, light));
                 }
             }
         }
@@ -108,6 +109,7 @@ void Scene::random_scene()
 
     auto material3 = std::make_shared<Metal>(Color(0.7, 0.6, 0.5), 0.0);
     spheres.push_back(std::make_shared<Sphere>(Point3(4, -1, -5), 1.0, light));
+    Add_light(std::make_shared<Sphere>(Point3(4, -1, -5), 1.0, light));
 
     Add(make_shared<BVH_Node>(spheres, 0, 1));
 }

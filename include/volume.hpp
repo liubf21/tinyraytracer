@@ -16,7 +16,7 @@ public:
 
     virtual bool ray_intersect(const Ray &ray, float t_min, float t_max, Intersection &intersection) const override
     {
-        bool db = (random_float() < 0.00001); // debug
+        bool db = (random_float() < 0.0001); // debug
         db = false;
         Intersection intersection1, intersection2; // the two intersections of the ray with the boundary
 

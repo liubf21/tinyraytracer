@@ -29,11 +29,11 @@ enable_cxx_compiler_flag_if_supported("-fopenmp")
 
 ## Use OpenMP in macOS
 
-# if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-#     message(STATUS "Clang detected")
-#     enable_cxx_compiler_flag_if_supported("-Xpreprocessor -fopenmp")
-#     enable_cxx_compiler_flag_if_supported("-lomp")
-# endif()
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    message(STATUS "Clang detected")
+    enable_cxx_compiler_flag_if_supported("-Xpreprocessor -fopenmp")
+    enable_cxx_compiler_flag_if_supported("-lomp")
+endif()
 
 # find_package(OpenMP REQUIRED)
 # target_link_libraries(${PROJECT_NAME} OpenMP::OpenMP_CXX)

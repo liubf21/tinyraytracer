@@ -32,15 +32,15 @@ void Renderer::render(const Camera &camera, const Scene &scene, RenderAlgo algo)
             {
                 for (int s = 0; s < scene.samples; ++s)
                 {
-                    for (int _ = 0; _ < 4; ++_) // 4 samples per pixel (2x2 subpixel sampling)
+                    for (int sp = 0; sp < 4; ++sp) // 4 samples per pixel (2x2 subpixel sampling)
                     {
-                        auto u = (i + 0.5 * (s % 2) + random_float() * 0.5) / scene.width;
-                        auto v = (j + 0.5 * (s / 2) + random_float() * 0.5) / scene.height;
+                        auto u = (i + 0.5 * (sp % 2) + random_float() * 0.5) / scene.width;
+                        auto v = (j + 0.5 * (sp / 2) + random_float() * 0.5) / scene.height;
                         Ray r = camera.get_ray(u, v);
                         framebuffer[i + j * scene.width] = framebuffer[i + j * scene.width] + path_tracing(r, scene);
                     }
                 }
-                framebuffer[i + j * scene.width] = framebuffer[i + j * scene.width] * (1. / scene.samples);
+                framebuffer[i + j * scene.width] = framebuffer[i + j * scene.width] * (0.25 / scene.samples);
             }
         }
         write_to_jpg(scene.width, scene.height);
@@ -115,7 +115,7 @@ void Renderer::render(const Camera &camera, const Scene &scene, RenderAlgo algo)
                 {
                     if (num == 0 && __ % 1000 == 0)
                         fprintf(stderr, "\rtracing %5.2f%%", 100. * __ / per);
-                    auto vec = scene.get_lights()[0]->random();
+                    auto vec = scene.get_lights()[random_int(0, scene.get_lights().size() - 1)]->random();
                     Ray r = Ray(vec, random_in_unit_sphere()); // generate a ray from light source
                     Vec3f col = Vec3f(1, 1, 1) + .4;
                     tree.query(PPMnode(r.origin(), col, r.direction()), c[num]); // query the tree about the photons before sending the ray
@@ -142,12 +142,6 @@ void Renderer::render(const Camera &camera, const Scene &scene, RenderAlgo algo)
                 // std::cout << final[i].getcol() << std::endl;
                 final[i] = final[i] + now[i] / now[i].n; // * alpha;
                 framebuffer[i] = final[i].get();
-                if (final[i].n > 0)
-                {
-                    // std::cout << "final " << final[i].getcol() << ":" << final[i].n << std::endl;
-                    // std::cout << "get " << final[i].get() << std::endl;
-                    // std::cout << "framebuffer " << framebuffer[i] << std::endl;
-                }
             }
             if (_ == 1 || _ % 10 == 0)
             {
@@ -241,8 +235,8 @@ Color Renderer::path_tracing(const Ray &ray, const Scene &scene, int depth)
     // direct lighting
     if (random_float() < 0.5 && !scene.get_lights().empty()) // randomly choose direct lighting or indirect lighting
     {
-        auto light = scene.get_lights()[0];
-        // auto light = scene.get_lights()[random_int(0, scene.get_lights().size() - 1)];
+        // auto light = scene.get_lights()[0];
+        auto light = scene.get_lights()[random_int(0, scene.get_lights().size() - 1)];
         srec.scattered = Ray(intersection.position, light->random(intersection.position), ray.time()); // sample a light
         srec.pdf = light->pdf_value(srec.scattered.origin(), srec.scattered.direction());
         if (srec.pdf < epsilon) // avoid division by zero
@@ -353,8 +347,6 @@ void Renderer::write_to_ppm(int width, int height, float gamma, std::string file
             c = c * (1. / max);
         for (int j = 0; j < 3; ++j)
         {
-            if (c[j] != c[j])
-                c[j] = 0;                                                // remove NaN
             ofs << (char)(255.999 * clamp(powf(c[j], 1. / 2.), 0., 1.)); // type conversion from float to char (gamma correction)
         }
     }
@@ -382,8 +374,8 @@ void Renderer::write_to_jpg(int width, int height, float gamma, std::string file
             c = c * (1. / max);
         for (int j = 0; j < 3; j++)
         {
-            if (c[j] != c[j])
-                c[j] = 0; // remove NaN
+            // if (c[j] != c[j])
+            //     c[j] = 0; // remove NaN
             pixmap[i * 3 + j] = (unsigned char)(255.999 * clamp(powf(framebuffer[i][j], 1. / gamma), 0., 1.));
         }
     }
