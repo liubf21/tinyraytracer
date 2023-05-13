@@ -22,6 +22,7 @@ int main(int argc, char **argv)
             std::cout << "usage: ./tinyraytracer -r <render algorithm> -sc <scene>(optional) -w <width>(optional) -h <height>(optional) -s <samples>(optional)" << std::endl;
             std::cout << "render algorithm: 1. naive 2. path tracing 3. progressive photon mapping" << std::endl;
             std::cout << "scene: 1. cornell box 2. cornell smoke 3. random scene 4. final scene" << std::endl;
+            std::cout << "(naive algorithm can not specify scene)" << std::endl;
             std::cout << "if using progressive photon mapping, you can specify the number of iterations by adding -i <iterations> and the radius by adding -ra <radius>" << std::endl;
             return 0;
         }

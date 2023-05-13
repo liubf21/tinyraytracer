@@ -23,6 +23,7 @@ TODO:
 + 优化 Progressive Photon Mapping 算法
 + SDF 模型
 + OpenGL 实现的 GUI
++ 更多的模型和场景
 
 ## Installation Instructions
 
@@ -44,7 +45,7 @@ git clone https://github.com/liubf21/tinyraytracer.git
 cd tinyraytracer
 ```
 
-3. Build the project using CMake.
+3. Build the project using CMake.(May need to modify the CMakeLists.txt file to specify the path of OpenMP)
 ```
 mkdir build
 cd build
@@ -58,7 +59,7 @@ make
 
 5. Run the program.
 ```
-./tinyraytracer
+./tinyraytracer 
 ```
 
 ## Usage

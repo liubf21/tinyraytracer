@@ -34,15 +34,13 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     enable_cxx_compiler_flag_if_supported("-Xpreprocessor -fopenmp")
     enable_cxx_compiler_flag_if_supported("-lomp")
 endif()
-
 # find_package(OpenMP REQUIRED)
 # target_link_libraries(${PROJECT_NAME} OpenMP::OpenMP_CXX)
-
+## or
 # set(OPENMP_LIBRARIES "/opt/homebrew/opt/libomp/lib")
 # set(OPENMP_INCLUDES "/opt/homebrew/opt/libomp/include")
 # include_directories(${OPENMP_INCLUDES})
 # link_directories(${OPENMP_LIBRARIES})
-
 
 
 file(GLOB SOURCES
@@ -62,4 +60,3 @@ target_include_directories(${PROJECT_NAME} PRIVATE "${LIB_DIR}")
 # LIB_DIR
 set(LIB_DIR "${LIB_DIR}/lib")
 target_include_directories(${PROJECT_NAME} PRIVATE "${LIB_DIR}")
-
