@@ -158,6 +158,10 @@ void Scene::final_scene()
     primitives.push_back(make_shared<ConstantMedium>(boundary, 0.2, Color(0.2, 0.4, 0.9)));
     boundary = make_shared<Sphere>(Point3(0, 0, 0), 500, make_shared<Dielectric>(1.5));
     primitives.push_back(make_shared<ConstantMedium>(boundary, 0.001, Color(1, 1, 1)));
+    boundary = make_shared<Sphere>(Point3(0, -1, -4), 2, make_shared<Dielectric>(1.5));
+    primitives.push_back(make_shared<ConstantMedium>(boundary, 0.5, Color(0.3, 0.1, 0.3)));
+    boundary = make_shared<Sphere>(Point3(0, -1, -4), 1, make_shared<Dielectric>(1.5));
+    primitives.push_back(make_shared<ConstantMedium>(boundary, 0.8, Color(1, 0.1, 0.1)));
 
     auto emat = make_shared<Lambertian>(make_shared<ImageTexture>("../img/earthmap.jpg"));
     primitives.push_back(make_shared<Sphere>(Point3(-3, -2, -5), 1.2, emat));

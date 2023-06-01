@@ -1,5 +1,7 @@
 #pragma once
 
+
+#include <cstring>
 #include <limits> // for std::numeric_limits
 #include <memory> // for std::shared_ptr
 #include <omp.h>  // for OpenMP
@@ -22,7 +24,7 @@ const float epsilon = 0.0001f;
 const float max_float = std::numeric_limits<float>::max();
 const float min_float = std::numeric_limits<float>::min();
 const float infinity = std::numeric_limits<float>::infinity();
-const float pi = M_PI;
+const float pi = 3.14159265358979323846f;
 
 // Utility Functions
 inline float degrees_to_radians(float degrees) // inline: to avoid multiple definitions

@@ -190,13 +190,13 @@ public:
         srec.scattered = Ray(intersection.position, random_in_unit_sphere(), ray.time());
         srec.attenuation = albedo->value(intersection.u, intersection.v, intersection.position);
         srec.is_specular = false;
-        srec.pdf = 1. / (4. * M_PI);
+        srec.pdf = 1. / (4. * pi);
         return true;
     }
 
     virtual float scattering_pdf(const Ray &ray, const Intersection &intersection, const Ray &scattered) const override
     {
-        return 1. / (4. * M_PI);
+        return 1. / (4. * pi);
     }
 };
 
