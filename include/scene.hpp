@@ -64,5 +64,6 @@ public:
     bool bounding_box(float time0, float time1, AABB &output_box) const;
     void add_model(Model &&model, shared_ptr<Material> material, Vec3f translate = Vec3f(), float rotate_y = .0);
     void load_envmap(const char *filename);
+    void load_volume(const char *filename);
     Vec3f background(const Vec3f &dir) const;
 };

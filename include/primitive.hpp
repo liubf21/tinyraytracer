@@ -59,6 +59,22 @@ public:
     virtual Vec3f random(const Vec3f &o) const override { return position - o; }
 };
 
+class Vertex : public Primitive
+{
+    Point3 position;
+    Vec3f normal;
+    Vec2f uv;
+public:
+    Vertex() {}
+    Vertex(const Point3 &p, const Vec3f &n, const Vec2f &u) : position(p), normal(n), uv(u) {}
+    Vertex(const Point3 &p) : position(p) {}
+    virtual bool ray_intersect(const Ray &ray, float t_min, float t_max, Intersection &intersection) const override
+    {
+        return false;
+    }
+};
+
+
 class Sphere : public Primitive
 {
     Vec3f center;

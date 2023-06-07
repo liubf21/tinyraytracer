@@ -1,5 +1,8 @@
 #include "scene.hpp"
 
+// #include <sstream>
+#include <fstream>
+
 void Scene::naive_scene()
 {
     shared_ptr<Material> ivory = make_shared<BlinnPhong>(Vec3f(0.1, 0.6, 0.4), Vec3f(0.5, 0.5, 0.4), 50.);
@@ -321,6 +324,51 @@ void Scene::load_envmap(const char *filename)
         }
     }
     stbi_image_free(pixmap);
+}
+
+void Scene::load_volume(const char *filename) // load volume data from file
+{
+    std::ifstream fin(std::string(filename), std::ios::in);
+    if (!fin)
+    {
+        std::cerr << "ERROR: could not load volume data" << filename << "\n";
+        exit(1);
+    }
+    // std::string line;
+    // std::stringstream ss;
+    // while (getline(fin, line))
+    // {
+    //     ss << line << " ";
+    // }
+    // load_envmap("../img/envmap.jpg");
+    // shared_ptr<Material> ivory = make_shared<BlinnPhong>(Vec3f(0.1, 0.6, 0.4), Vec3f(0.5, 0.5, 0.4), 50.);
+    float x, y, z, alpha;
+    std::vector<shared_ptr<Primitive>> volume_data;
+    float maxalpha = 0;
+    float minalpha = 100000000;
+    while (fin >> x >> y >> z >> alpha)
+    {
+        // std::cout << alpha << " ";
+        maxalpha = std::max(maxalpha, alpha);
+        minalpha = std::min(minalpha, alpha);
+
+        auto n_alpha = alpha / 13'000'000 * 255;
+        auto blue = n_alpha > 1.5 ? 255 : 0;
+        auto green = abs(n_alpha - 127.5);
+        auto red = 255 - green;
+        auto c = Vec3f(red, green, blue) / 255.0;
+        std::cout << c << std::endl;
+        shared_ptr<Material> ivory = make_shared<BlinnPhong>(Vec3f(1., 0, 0), c, 50.);
+        volume_data.push_back(make_shared<Sphere>(Vec3f(x, y, z), 0.005, ivory));
+    }
+    std::cout << maxalpha << " " << minalpha << std::endl;
+    // volume_data.push_back(make_shared<Sphere>(Vec3f(0, 0, -10), 1, ivory));
+    // volume_data.push_back(make_shared<Sphere>(Vec3f(1.5, -0.5, -18), 3, ivory));
+    // volume_data.push_back(make_shared<Sphere>(Vec3f(-1.0, -1.5, -12), 2, ivory));
+    Add(make_shared<BVH_Node>(volume_data, 0, 1));
+
+    Add_light(make_shared<Light>(Vec3f(-20, 20, 20), 1.5));
+    Add_light(make_shared<Light>(Vec3f(30, 50, -25), 1.8));
 }
 
 Vec3f Scene::background(const Vec3f &dir) const
